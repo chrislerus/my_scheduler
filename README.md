@@ -32,11 +32,19 @@ $ virtualenv -p python3 venv
 $ source venv/bin/activate
 ```
 
-2) Install the requirements and Redis:
+2) Install the requirements:
 
 `$ pip install -r requirements.txt`
 
-3) Run the django server, the celery worker and the celery beat with the following command:
+3) You can use the data/fill_db.py to fill your DynamoDB the the events.json file.
+
+4) Create a superuser to access the admin:
+
+```
+$ ./manage.py createsuperuser
+```
+
+5) Run the django server, the celery worker and the celery beat with the following command:
 
 ```
 $ ./manage.py runserver
@@ -44,12 +52,12 @@ $ celery -A scheduler beat -l info --scheduler django_celery_beat.schedulers:Dat
 $ celery -A scheduler worker -l info
 ```
 
-4) Go the admin to manage the tasks:
+6) Go the admin to manage the tasks:
 ```
 http://localhost:8000/admin/
 ```
 
-5) You can use the data/fill_db.py to fill your DynamoDB the the events.json file.
+
 
 ## Usage
 
