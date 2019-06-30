@@ -4,7 +4,7 @@ Here is a scheduler made with Djangom celery and Redis. From data in a DynamoDB,
 Below, you will find:
 - How to install the project
 - How to create tasks
-- A explanation of the different technology that I used
+- My approach
 - What can be improved
 
 ### Prerequisites
@@ -63,21 +63,35 @@ http://localhost:8000/admin/
  You can choose the type of schedule (at least one), and the minutes positional argument of mandatory for 
  the `build_reports_last_minutes` task. 
 
-## Running the tests
+## My approach
 
-Explain how to run the automated tests for this system
+### Tasks
+- Considering the assignment, I knew that I had to do a scheduler and avoid the old cron jobs.
+- Django / Celery was the obvious solution. I needed another tool to handle the "easily customisable" issue. I decided 
+to use django celery beat which work perfectly.
 
-### Break down into end to end tests
+#### Queue
+- I used redis instead of rabbitmq mostly because I already know Redis.
 
-Explain what these tests test and why
+### DB
+- Boto for the AWS client was a no-brainer.
+- Concerning the tables, I choose the request-id as primary key for the events since it's different each time. But I 
+had to create a uuid for the Visitor report table.
+- I thought about creating an index for the dates to improve Events queries. But it would increase the writing time 
+for each event entry. We don't want that.
 
-```
-Give an example
-```
+## Improvements
+Tasks
+- If I had the time, I would have try to use [airflow](https://airflow.apache.org/) which is a more complete tool and 
+can be combined with.
+- I am not a fan of the positional argument for the minutes tasks. I would use Airflow or find another way for it.
 
-## Deployment
+Tests
+- I need to add test for every section including mocking the AWS requests.
 
-Add additional notes about how to deploy this on a live system
+Deployment
+- I want to dockerize it.
+
 
 ## Authors
 
